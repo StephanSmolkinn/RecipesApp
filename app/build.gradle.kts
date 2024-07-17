@@ -63,7 +63,7 @@ dependencies {
     implementation(libs.androidx.material3)
 
     // Compose dependencies
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.2")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.3")
     implementation ("androidx.navigation:navigation-compose:2.7.7")
     implementation ("androidx.compose.material:material-icons-extended:1.6.8")
     implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
@@ -73,9 +73,8 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1")
 
     //Dagger - Hilt
-    implementation ("com.google.dagger:hilt-android:2.38.1")
+    implementation ("com.google.dagger:hilt-android:2.49")
     kapt ("com.google.dagger:hilt-android-compiler:2.48")
-    implementation ("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
     kapt ("androidx.hilt:hilt-compiler:1.2.0")
 
     // Room

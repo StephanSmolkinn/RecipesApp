@@ -1,6 +1,5 @@
 package com.project.recipesapp.feature_recipe.domain.model
 
-import androidx.compose.ui.graphics.Color
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.project.recipesapp.ui.theme.Blue
@@ -17,9 +16,12 @@ data class Recipe(
     val ingredients: String,
     val servings: String,
     val instructions: String,
-    val color: Int
+    val color: Int,
+    val timestamp: Long
 ) {
     companion object {
         val recipeColor = listOf(Violet, Pink, Blue, Red, Pink80)
     }
 }
+
+class InvalidRecipeException(message: String) : Exception(message)

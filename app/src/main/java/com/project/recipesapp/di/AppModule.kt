@@ -11,10 +11,15 @@ import com.project.recipesapp.feature_recipe.domain.use_case.DeleteRecipeUseCase
 import com.project.recipesapp.feature_recipe.domain.use_case.GetRecipeUseCase
 import com.project.recipesapp.feature_recipe.domain.use_case.GetRecipesUseCase
 import com.project.recipesapp.feature_recipe.domain.use_case.RecipeUseCases
+import com.project.recipesapp.feature_recipe_online.domain.repository.RecipeApiRepository
+import com.project.recipesapp.feature_recipe_online.domain.use_case.GetRecipesApiUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -53,6 +58,22 @@ object AppModule {
             addRecipe = AddRecipe(recipeRepository),
             getRecipeUseCase = GetRecipeUseCase(recipeRepository)
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideRecipeApiRepository() : RecipeApiRepository {
+        return Retrofit.Builder()
+            .baseUrl("https://dummyjson.com")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(RecipeApiRepository::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRecipesApiUseCase(recipeApiRepository: RecipeApiRepository) : GetRecipesApiUseCase {
+        return GetRecipesApiUseCase(recipeApiRepository)
     }
 
 }

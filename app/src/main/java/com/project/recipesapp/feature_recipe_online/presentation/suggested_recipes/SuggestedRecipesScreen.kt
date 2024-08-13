@@ -36,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.asLiveData
 import com.project.recipesapp.feature_recipe.presentation.recipes.RecipesEvent
 import com.project.recipesapp.feature_recipe.presentation.util.Screen
 import com.project.recipesapp.feature_recipe_online.presentation.suggested_recipes.components.SuggestedRecipeEmpty
@@ -45,11 +46,10 @@ import com.project.recipesapp.feature_recipe_online.presentation.suggested_recip
 fun SuggestedRecipesScreen(
     modifier: Modifier = Modifier,
     viewModel: SuggestedRecipesViewModel = hiltViewModel(),
-    countRecipes: State<Int>,
-    onCount: () -> Unit
 ) {
 
     val state = viewModel.state.collectAsState()
+    val countRecipe = viewModel.countRecipe.collectAsState()
 
     Scaffold {
         Column(
@@ -70,8 +70,8 @@ fun SuggestedRecipesScreen(
                 )
                 IconButton(
                     onClick = {
-                        viewModel.getRecipes(countRecipes.value.toString())
-                        onCount()
+                        viewModel.getRecipes(countRecipe.value.toString())
+                        viewModel.onCountRecipe()
                     }
                 ) {
                     Icon(

@@ -4,7 +4,7 @@ import com.project.recipesapp.feature_recipe.domain.model.InvalidRecipeException
 import com.project.recipesapp.feature_recipe.domain.model.Recipe
 import com.project.recipesapp.feature_recipe.domain.repository.RecipeRepository
 
-class AddRecipe(
+class AddRecipeUseCase(
     private val recipeRepository: RecipeRepository
 ) {
     @Throws(InvalidRecipeException::class)

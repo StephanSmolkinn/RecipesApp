@@ -94,7 +94,7 @@ class AddEditRecipeViewModel @Inject constructor(
             AddEditRecipeEvent.AddRecipe -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     try {
-                        recipeUseCases.addRecipe(
+                        recipeUseCases.addRecipeUseCase(
                             Recipe(
                                 title = stateTitle.value.text,
                                 ingredients = stateIngredients.value.text,

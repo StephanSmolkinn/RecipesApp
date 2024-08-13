@@ -54,8 +54,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val countRecipes = mutableStateOf(2)
-
         val tabs = listOf(
             TabItem(
                 selected = Icons.Filled.Home,
@@ -156,15 +154,7 @@ class MainActivity : ComponentActivity() {
                                     }
 
                                     1 -> {
-                                        SuggestedRecipesScreen(
-                                            countRecipes = countRecipes,
-                                        ) {
-                                            if (countRecipes.value == 20) {
-                                                countRecipes.value = 0
-                                            }
-
-                                            countRecipes.value++
-                                        }
+                                        SuggestedRecipesScreen()
                                     }
                                 }
                             }

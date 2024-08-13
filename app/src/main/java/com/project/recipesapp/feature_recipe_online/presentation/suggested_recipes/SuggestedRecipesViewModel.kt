@@ -20,6 +20,9 @@ class SuggestedRecipesViewModel @Inject constructor(
     private val _state = MutableStateFlow(RemoteRecipesState())
     val state = _state.asStateFlow()
 
+    private val _countRecipe = MutableStateFlow(2)
+    val countRecipe = _countRecipe.asStateFlow()
+
     private var getRecipesJob: Job? = null
 
     init {
@@ -30,6 +33,13 @@ class SuggestedRecipesViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = _state.value.copy(recipes = getRecipesApiUseCase(recipe))
         }
+    }
+
+    fun onCountRecipe() {
+        if (_countRecipe.value == 20) {
+            _countRecipe.value = 0
+        }
+        _countRecipe.value += 1
     }
 
 }

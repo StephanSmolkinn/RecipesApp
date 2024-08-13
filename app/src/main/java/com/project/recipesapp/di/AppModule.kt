@@ -2,11 +2,10 @@ package com.project.recipesapp.di
 
 import android.app.Application
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.project.recipesapp.feature_recipe.data.data_source.RecipeDatabase
 import com.project.recipesapp.feature_recipe.data.repository.RecipeRepositoryImpl
 import com.project.recipesapp.feature_recipe.domain.repository.RecipeRepository
-import com.project.recipesapp.feature_recipe.domain.use_case.AddRecipe
+import com.project.recipesapp.feature_recipe.domain.use_case.AddRecipeUseCase
 import com.project.recipesapp.feature_recipe.domain.use_case.DeleteRecipeUseCase
 import com.project.recipesapp.feature_recipe.domain.use_case.GetRecipeUseCase
 import com.project.recipesapp.feature_recipe.domain.use_case.GetRecipesUseCase
@@ -19,7 +18,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -55,7 +53,7 @@ object AppModule {
         return RecipeUseCases(
             getRecipesUseCase = GetRecipesUseCase(recipeRepository),
             deleteRecipeUseCase = DeleteRecipeUseCase(recipeRepository),
-            addRecipe = AddRecipe(recipeRepository),
+            addRecipeUseCase = AddRecipeUseCase(recipeRepository),
             getRecipeUseCase = GetRecipeUseCase(recipeRepository)
         )
     }

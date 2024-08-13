@@ -55,7 +55,7 @@ class RecipesViewModel @Inject constructor(
             RecipesEvent.RestoreRecipe -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     deletedRecipe?.let {
-                        recipeUseCases.addRecipe(it)
+                        recipeUseCases.addRecipeUseCase(it)
                     }
                     deletedRecipe = null
                 }

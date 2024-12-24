@@ -11,7 +11,8 @@ import com.project.recipesapp.feature_recipe.domain.use_case.GetRecipeUseCase
 import com.project.recipesapp.feature_recipe.domain.use_case.GetRecipesUseCase
 import com.project.recipesapp.feature_recipe.domain.use_case.RecipeUseCases
 import com.project.recipesapp.feature_recipe_online.domain.repository.RecipeApiRepository
-import com.project.recipesapp.feature_recipe_online.domain.use_case.GetRecipesApiUseCase
+import com.project.recipesapp.feature_recipe_online.domain.use_case.GetRecipesSortedByNameAndOrderUseCase
+import com.project.recipesapp.feature_recipe_online.domain.use_case.SuggestedRecipesUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -60,18 +61,20 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideSuggestedRecipesUseCases(recipeApiRepository: RecipeApiRepository) : SuggestedRecipesUseCases {
+        return SuggestedRecipesUseCases(
+            getRecipesSortedByNameAndOrderUseCase = GetRecipesSortedByNameAndOrderUseCase(recipeApiRepository)
+        )
+    }
+
+    @Provides
+    @Singleton
     fun provideRecipeApiRepository() : RecipeApiRepository {
         return Retrofit.Builder()
             .baseUrl("https://dummyjson.com")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(RecipeApiRepository::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideRecipesApiUseCase(recipeApiRepository: RecipeApiRepository) : GetRecipesApiUseCase {
-        return GetRecipesApiUseCase(recipeApiRepository)
     }
 
 }

@@ -1,6 +1,5 @@
-package com.project.recipesapp.feature_recipe.presentation
+package com.project.recipesapp
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,22 +18,13 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavArgument
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -45,6 +35,7 @@ import com.project.recipesapp.feature_recipe.presentation.recipes.RecipesScreen
 import com.project.recipesapp.feature_recipe.presentation.util.Screen
 import com.project.recipesapp.feature_recipe.presentation.util.TabItem
 import com.project.recipesapp.feature_recipe_online.presentation.suggested_recipes.SuggestedRecipesScreen
+import com.project.recipesapp.navigation.Navigation
 import com.project.recipesapp.ui.theme.RecipesAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -81,7 +72,6 @@ class MainActivity : ComponentActivity() {
                     }
 
                     Scaffold {
-
                         LaunchedEffect(tabIndex.intValue) {
                             pager.animateScrollToPage(tabIndex.intValue)
                         }
@@ -119,38 +109,7 @@ class MainActivity : ComponentActivity() {
                             ) { index ->
                                 when (index) {
                                     0 -> {
-                                        NavHost(
-                                            navController = navController,
-                                            startDestination = Screen.RecipesScreen.route,
-                                            modifier = Modifier.padding(it)
-                                        ) {
-                                            composable(route = Screen.RecipesScreen.route) {
-                                                RecipesScreen(navController = navController)
-                                            }
-
-                                            composable(
-                                                route = Screen.AddEditRecipeScreen.route + "?recipeId={recipeId}&recipeColor={recipeColor}",
-                                                arguments = listOf(
-                                                    navArgument(
-                                                        name = "recipeId"
-                                                    ) {
-                                                        type = NavType.LongType
-                                                        defaultValue = -1L
-                                                    },
-                                                    navArgument(
-                                                        name = "recipeColor"
-                                                    ) {
-                                                        type = NavType.IntType
-                                                        defaultValue = -1
-                                                    }
-                                                )
-                                            ) {
-                                                AddEditScreen(
-                                                    navController = navController,
-                                                    recipeColor = it.arguments?.getInt("recipeColor") ?: -1
-                                                )
-                                            }
-                                        }
+                                        Navigation(modifier = Modifier.padding(it))
                                     }
 
                                     1 -> {

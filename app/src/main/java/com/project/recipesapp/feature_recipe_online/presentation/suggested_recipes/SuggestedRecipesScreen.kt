@@ -1,5 +1,10 @@
 package com.project.recipesapp.feature_recipe_online.presentation.suggested_recipes
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -38,7 +43,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.asLiveData
 import com.project.recipesapp.feature_recipe.presentation.recipes.RecipesEvent
+import com.project.recipesapp.feature_recipe.presentation.recipes.components.OrderSection
 import com.project.recipesapp.feature_recipe.presentation.util.Screen
+import com.project.recipesapp.feature_recipe_online.presentation.suggested_recipes.components.OrderTypeSection
 import com.project.recipesapp.feature_recipe_online.presentation.suggested_recipes.components.SuggestedRecipeEmpty
 import com.project.recipesapp.feature_recipe_online.presentation.suggested_recipes.components.SuggestedRecipeItem
 
@@ -47,10 +54,10 @@ fun SuggestedRecipesScreen(
     modifier: Modifier = Modifier,
     viewModel: SuggestedRecipesViewModel = hiltViewModel(),
 ) {
-
     val state = viewModel.state.collectAsState()
-    val countRecipe = viewModel.countRecipe.collectAsState()
-
+    val isOpen = remember {
+        mutableStateOf(false)
+    }
     Scaffold {
         Column(
             modifier = Modifier
@@ -65,36 +72,46 @@ fun SuggestedRecipesScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Suggested Recipes",
+                    text = "Your Recipes",
                     style = MaterialTheme.typography.titleLarge
                 )
                 IconButton(
                     onClick = {
-                        viewModel.getRecipes(countRecipe.value.toString())
-                        viewModel.onCountRecipe()
+                        isOpen.value = isOpen.value.not()
                     }
                 ) {
                     Icon(
-                        imageVector = Icons.Default.ArrowForward,
+                        imageVector = Icons.Default.Menu,
                         contentDescription = "Open Order Section"
                     )
                 }
             }
+            AnimatedVisibility(
+                visible = isOpen.value,
+                enter = fadeIn() + slideInVertically(),
+                exit = fadeOut() + slideOutVertically()
+            ) {
+                OrderTypeSection(
+                    orderType = state.value.orderType,
+                    onChange = {
+                        viewModel.onEvent(
+                            SuggestedRecipesEvent.Order(it)
+                        )
+                    },
+                    isOpen = isOpen.value
+                )
+            }
             Spacer(modifier = Modifier.height(16.dp))
-            if (state.value.recipes != null) {
-                SuggestedRecipeItem(
-                    remoteRecipe = state.value.recipes!!,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                )
-            } else {
-                SuggestedRecipeEmpty(
-                    modifier = Modifier
-                        .fillMaxSize()
-                )
+            LazyColumn {
+                items(state.value.recipes) {
+                    SuggestedRecipeItem(
+                        remoteRecipe = it,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    )
+                }
             }
         }
     }
-
 }

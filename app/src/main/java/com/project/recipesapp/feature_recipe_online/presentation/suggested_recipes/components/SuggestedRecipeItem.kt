@@ -40,7 +40,6 @@ fun SuggestedRecipeItem(
     cutCornerSize: Dp = 30.dp,
     remoteRecipe: RemoteRecipe,
 ) {
-
     val color = remember {
         mutableStateOf(RemoteRecipe.colors.random())
     }
@@ -104,17 +103,6 @@ fun SuggestedRecipeItem(
                 maxLines = 1,
             )
             Spacer(modifier = Modifier.height(8.dp))
-            LazyColumn {
-                items(remoteRecipe.ingredients) {
-                    Text(
-                        text = it,
-                        overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        maxLines = it.length,
-                    )
-                }
-            }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "Servings: ${remoteRecipe.servings}",
@@ -139,18 +127,6 @@ fun SuggestedRecipeItem(
                 color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 2,
             )
-            Spacer(modifier = Modifier.height(16.dp))
-            LazyColumn {
-                items(remoteRecipe.instructions) {
-                    Text(
-                        text = it,
-                        overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        maxLines = it.length,
-                    )
-                }
-            }
         }
     }
 }

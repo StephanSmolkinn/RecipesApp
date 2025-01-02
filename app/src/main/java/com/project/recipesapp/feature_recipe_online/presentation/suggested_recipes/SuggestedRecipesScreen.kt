@@ -29,9 +29,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
@@ -48,6 +51,7 @@ import com.project.recipesapp.feature_recipe.presentation.util.Screen
 import com.project.recipesapp.feature_recipe_online.presentation.suggested_recipes.components.OrderTypeSection
 import com.project.recipesapp.feature_recipe_online.presentation.suggested_recipes.components.SuggestedRecipeEmpty
 import com.project.recipesapp.feature_recipe_online.presentation.suggested_recipes.components.SuggestedRecipeItem
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SuggestedRecipesScreen(
@@ -55,10 +59,33 @@ fun SuggestedRecipesScreen(
     viewModel: SuggestedRecipesViewModel = hiltViewModel(),
 ) {
     val state = viewModel.state.collectAsState()
+
     val isOpen = remember {
         mutableStateOf(false)
     }
-    Scaffold {
+
+    val scaffoldState = remember {
+        SnackbarHostState()
+    }
+
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is SuggestedRecipesViewModel.UiEvent.ShowSnackBar -> {
+                    scaffoldState.showSnackbar(
+                        message = event.message,
+                        duration = SnackbarDuration.Short
+                    )
+                }
+            }
+        }
+    }
+
+    Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = scaffoldState)
+        }
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -108,7 +135,8 @@ fun SuggestedRecipesScreen(
                         remoteRecipe = it,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp)
+                            .padding(16.dp),
+                        onSaveRecipe = { viewModel.onEvent(SuggestedRecipesEvent.SaveRecipe(it)) }
                     )
                 }
             }

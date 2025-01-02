@@ -1,12 +1,16 @@
 package com.project.recipesapp.feature_recipe_online.presentation.suggested_recipes.components
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -39,6 +43,7 @@ fun SuggestedRecipeItem(
     modifier: Modifier = Modifier,
     cutCornerSize: Dp = 30.dp,
     remoteRecipe: RemoteRecipe,
+    onSaveRecipe: () -> Unit
 ) {
     val color = remember {
         mutableStateOf(RemoteRecipe.colors.random())
@@ -79,13 +84,27 @@ fun SuggestedRecipeItem(
                 .padding(16.dp)
                 .padding(end = 32.dp)
         ) {
-            Text(
-                text = remoteRecipe.name,
-                overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 1
-            )
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = remoteRecipe.name,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 1
+                )
+                IconButton(
+                    onClick = { onSaveRecipe() }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Save,
+                        contentDescription = "Save recipe"
+                    )
+                }
+            }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "difficult ${remoteRecipe.difficulty}",

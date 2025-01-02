@@ -107,7 +107,7 @@ fun SuggestedRecipeItem(
             }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "difficult ${remoteRecipe.difficulty}",
+                text = "difficult: ${remoteRecipe.difficulty}",
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface,
@@ -115,13 +115,20 @@ fun SuggestedRecipeItem(
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Ingredients:",
+                text = "Ingredients: ",
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 1,
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
+            remoteRecipe.ingredients.forEach {
+                Text(
+                    text = it,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+            }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "Servings: ${remoteRecipe.servings}",

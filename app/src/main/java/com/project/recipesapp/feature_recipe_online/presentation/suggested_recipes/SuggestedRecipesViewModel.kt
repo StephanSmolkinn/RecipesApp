@@ -54,9 +54,9 @@ class SuggestedRecipesViewModel @Inject constructor(
                         recipesUseCase.addRecipeUseCase(
                             Recipe(
                                 title = event.recipe.name,
-                                ingredients = event.recipe.ingredients.toString(),
+                                ingredients = event.recipe.ingredients.toString().replace("[", "").replace("]", ""),
                                 servings = event.recipe.servings.toString(),
-                                instructions = event.recipe.instructions.toString(),
+                                instructions = event.recipe.instructions.toString().replace("[", "").replace("]", ""),
                                 timestamp = System.currentTimeMillis(),
                                 color = Recipe.recipeColor.random().toArgb(),
                                 id = null

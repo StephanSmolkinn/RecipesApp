@@ -154,18 +154,17 @@ fun AddEditScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
             TransparentTextFieldHint(
-                text = ingredientsState.text,
+                text = "Ingredients: ${ingredientsState.text}",
                 hint = ingredientsState.hint,
                 onValueChange = { viewModel.onEvent(AddEditRecipeEvent.SetIngredients(it)) },
                 onFocusChange = { viewModel.onEvent(AddEditRecipeEvent.ChangeIngredientsFocus(it)) },
                 isHintVisible = ingredientsState.isHintVisible,
-                singleLine = true,
                 textStyle = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(16.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
             TransparentTextFieldHint(
-                text = servingsState.text,
+                text = "Servings: ${servingsState.text}",
                 hint = servingsState.hint,
                 onValueChange = { viewModel.onEvent(AddEditRecipeEvent.SetServings(it)) },
                 onFocusChange = { viewModel.onEvent(AddEditRecipeEvent.ChangeServingsFocus(it)) },
@@ -181,8 +180,7 @@ fun AddEditScreen(
                 onValueChange = { viewModel.onEvent(AddEditRecipeEvent.SetInstruction(it)) },
                 onFocusChange = { viewModel.onEvent(AddEditRecipeEvent.ChangeInstructionFocus(it)) },
                 isHintVisible = instructionState.isHintVisible,
-                singleLine = true,
-                textStyle = MaterialTheme.typography.bodyMedium,
+                textStyle = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier
                     .fillMaxHeight()
                     .padding(16.dp),
